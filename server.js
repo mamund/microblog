@@ -25,7 +25,7 @@ else {
 
 // global data
 var contentType = 'text/html'; //'application/xhtml+xml';
-var baseUrl = 'http://localhost:3000/microblog/';
+var baseUrl = 'http://64.30.143.38/microblog/';
 
 // Configuration
 
