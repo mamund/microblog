@@ -59,7 +59,7 @@ function validateUser(req, res, next) {
   }  
   
   parts = auth.split(' ');
-  scheme = parts[0]
+  scheme = parts[0];
   credentials = new Buffer(parts[1], 'base64').toString().split(':');
   
   if ('Basic' != scheme) {
@@ -72,7 +72,7 @@ function validateUser(req, res, next) {
   
   options = {};
   options.descending='true';
-  options.key=String.fromCharCode(34)+req.credentials[0]+String.fromCharCode(34);;
+  options.key=String.fromCharCode(34)+req.credentials[0]+String.fromCharCode(34);
   
   db.get(view, options, function(err, doc) {
     try {
@@ -87,7 +87,7 @@ function validateUser(req, res, next) {
       return authRequired(res, 'Microblog');
     }
   });
-};
+}
 
 // Routes
 
@@ -194,7 +194,7 @@ app.get('/microblog/user-messages/:i', function(req, res){
   view = '/_design/microblog/_view/posts_by_user';
   options = {};
   options.descending='true';
-  options.key=String.fromCharCode(34)+id+String.fromCharCode(34);;
+  options.key=String.fromCharCode(34)+id+String.fromCharCode(34);
   
   db.get(view, options, function(err, doc) {
     res.header('content-type',contentType);
@@ -237,7 +237,7 @@ app.post('/microblog/users/', function(req, res) {
     item.password = req.body.password;
     item.name = req.body.name;
     item.email = req.body.email;
-    item.description = req.body.description
+    item.description = req.body.description;
     item.imageUrl = req.body.image;
     item.websiteUrl = req.body.website;
     item.dateCreated = today();
@@ -261,7 +261,7 @@ app.get('/microblog/register/', function(req, res){
   res.header('content-type',contentType);
   res.render('register', {
     title: 'Register',
-    site: baseUrl,
+    site: baseUrl
   });
 });
 
@@ -283,8 +283,8 @@ function today() {
     d = '0'+d.toString();
   }
 
-  return y+'-'+m+'-'+d
-};
+  return y+'-'+m+'-'+d;
+}
 
 function now() {
   var y, m, d, h, i, s, dt;
@@ -318,7 +318,7 @@ function now() {
     s = '0'+s;
   }
   return y+'-'+m+'-'+d+' '+h+':'+i+':'+s;
-};
+}
 
 function forbidden(res) {
 
@@ -328,22 +328,22 @@ function forbidden(res) {
   res.setHeader('Content-Length', body.length);
   res.statusCode = 403;
   res.end(body);
-};
+}
 
 function authRequired(res,realm) {
   var r = (realm||'Authentication Required');
   res.statusCode = 401;
   res.setHeader('WWW-Authenticate', 'Basic realm="' + r + '"');
   res.end('Unauthorized');
-};
+}
 
 function badRequest(res) {
   res.statusCode = 400;
   res.end('Bad Request');
-};
+}
 
 // Only listen on $ node app.js
 if (!module.parent) {
-  app.listen(3000);
+  app.listen(process.env.PORT || 3000);
   console.log("Express server listening on port %d", app.address().port);
 }
