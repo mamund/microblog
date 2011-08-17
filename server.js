@@ -1,4 +1,4 @@
-/* 2001-07-25 (mca) : collection+json */
+/* 2001-07-25 (mca) : XHTML+Microblog */
 /* Designing Hypermedia APIs by Mike Amundsen (2011) */
 
 /**
