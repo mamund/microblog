@@ -13,7 +13,7 @@ var app = module.exports = express.createServer();
 var cradle = require('cradle');
 var host = 'https://mamund.cloudant.com';
 var port = 443;
-var credentials = {username: 'mamund', password: 'M1cr0bl0g' };
+var credentials = {username: 'mamund', password: 'M1cr0Bl0g' };
 var local=false;
 var db;
 if(local===true) {
