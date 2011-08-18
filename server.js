@@ -210,7 +210,7 @@ app.get('/microblog/user-messages/:i', function(req, res){
 app.get('/microblog/users/', function(req, res){
 
   var view = '/_design/microblog/_view/users_by_id';
-    
+  
   db.get(view, function(err, doc) {
     res.header('content-type',contentType);
     res.render('users', {
@@ -221,37 +221,52 @@ app.get('/microblog/users/', function(req, res){
   });
 });
 
+
 /* post to user list page */
 app.post('/microblog/users/', function(req, res) {
 
-  var item,id; 
+  var item,id,view; 
+  view = '/_design/microblog/_view/users_by_id';
 
   id = req.body.user;
   if(id==='') {
     res.status=400;
     res.send('missing user');  
   }
-  else {
-    item = {};
-    item.type='user';
-    item.password = req.body.password;
-    item.name = req.body.name;
-    item.email = req.body.email;
-    item.description = req.body.description;
-    item.imageUrl = req.body.image;
-    item.websiteUrl = req.body.website;
-    item.dateCreated = today();
+  else {  
+    view = '/_design/microblog/_view/users_by_id';
+    options = {};
+    options.descending='true';
+    options.key=String.fromCharCode(34)+id+String.fromCharCode(34);
     
-    // write to DB
-    db.save(req.body.user, item, function(err, doc) {
+    db.get(view, options, function(err, doc) {
       if(err) {
-        res.status=400;
-        res.send(err);
+        item = {};
+        item.type='user';
+        item.password = req.body.password;
+        item.name = req.body.name;
+        item.email = req.body.email;
+        item.description = req.body.description;
+        item.imageUrl = req.body.image;
+        item.websiteUrl = req.body.website;
+        item.dateCreated = today();
+        
+        db.get(view
+        // write to DB
+        db.save(req.body.user, item, function(err, doc) {
+          if(err) {
+            res.status=400;
+            res.send(err);
+          }
+          else {
+            res.redirect('/microblog/users/', 302);
+          }
+        });    
       }
       else {
-        res.redirect('/microblog/users/', 302);
+        return badRequest(res);
       }
-    });    
+    });
   }
 });
 
