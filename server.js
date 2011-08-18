@@ -251,7 +251,6 @@ app.post('/microblog/users/', function(req, res) {
         item.websiteUrl = req.body.website;
         item.dateCreated = today();
         
-        db.get(view
         // write to DB
         db.save(req.body.user, item, function(err, doc) {
           if(err) {
