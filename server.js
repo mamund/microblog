@@ -101,7 +101,7 @@ app.get('/microblog/', function(req, res){
   options.descending = 'true';
 
   db.get(view, options, function(err, doc) {
-    res.header('content-type',ctype);
+    res.header('content-type',contentType);
     res.render('index', {
       title: 'Home',
       site: baseUrl,
