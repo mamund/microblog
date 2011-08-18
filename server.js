@@ -263,7 +263,7 @@ app.post('/microblog/users/', function(req, res) {
         });    
       }
       else {
-        return badRequest(res);
+        return badRequest(res, 'User already exists');
       }
     });
   }
@@ -351,9 +351,9 @@ function authRequired(res,realm) {
   res.end('Unauthorized');
 }
 
-function badRequest(res) {
+function badRequest(res, msg) {
   res.statusCode = 400;
-  res.end('Bad Request');
+  res.end((msg||'Bad Request');
 }
 
 // Only listen on $ node app.js
