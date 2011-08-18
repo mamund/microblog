@@ -241,7 +241,7 @@ app.post('/microblog/users/', function(req, res) {
     
     db.get(view, options, function(err, doc) {
       if(doc.rows.length!==0) {
-        return badRequest(res, 'User Already Exists');
+        return badRequest(res);//, 'User Already Exists');
       }
       else {
         item = {};
@@ -351,9 +351,9 @@ function authRequired(res,realm) {
   res.end('Unauthorized');
 }
 
-function badRequest(res, msg) {
+function badRequest(res) {
   res.statusCode = 400;
-  res.end((msg||'Bad Request');
+  res.end('Bad Request');
 }
 
 // Only listen on $ node app.js
