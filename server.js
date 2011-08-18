@@ -95,14 +95,7 @@ function validateUser(req, res, next) {
 app.get('/microblog/', function(req, res){
 
   var view = '/_design/microblog/_view/posts_all';
-  var ctype;
-  
-  //if(req.accepts("application/xhtml+xml")) {
-  //  ctype = "application/xhtml+xml";
-  //}
-  //else {
-    ctype = contentType;
-  //}
+  var ctype = AcceptsXml(req);
   
   var options = {};
   options.descending = 'true';
@@ -286,6 +279,23 @@ app.get('/microblog/register/', function(req, res){
     site: baseUrl
   });
 });
+
+function acceptsXml(req) {
+  var ctype;
+  var ua = req.headers["user-agent"];
+  
+  if(req.accepts('application/xhtml+xml')) {
+    ctype = 'application/xhtml+xml';
+  }
+  
+  if(ua.indexOf('WebKit')!==-1 
+    || 
+    ua.indexOf('IE')!==-1) {
+    ctype = 'text/html';
+  }
+  
+  return ctype;
+}
 
 function today() {
 
