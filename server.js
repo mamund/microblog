@@ -95,12 +95,8 @@ function validateUser(req, res, next) {
 app.get('/microblog/', function(req, res){
 
   var view = '/_design/microblog/_view/posts_all';
-  var ctype;
-  
-  ctype = contentType;
-  //if(req.headers["accept"].toLowercase()==='text/xml') {
-  //  ctype = 'text/xml';
-  //}
+  var ctype = acceptsXml(req);
+
   var options = {};
   options.descending = 'true';
 
@@ -249,7 +245,7 @@ app.post('/microblog/users/', function(req, res) {
         return badRequest(res);//, 'User Already Exists');
       }
       else {
-        if(req.body.name=='') {
+        if(req.body.name && req.body.name==='') {
           res.status=400;
           res.send('missing name');
           return;
@@ -267,13 +263,13 @@ app.post('/microblog/users/', function(req, res) {
         
         // write to DB
         db.save(req.body.user, item, function(err, doc) {
-          if(err) {
-            res.status=400;
-            res.send(err);
-          }
-          else {
+          //if(err) {
+          //  res.status=400;
+          //  res.send(err);
+          //}
+          //else {
             res.redirect('/microblog/users/', 302);
-          }
+          //}
         });    
       }
     });
@@ -291,19 +287,19 @@ app.get('/microblog/register/', function(req, res){
 });
 
 function acceptsXml(req) {
-  var ctype;
-  var ua = req.headers["user-agent"];
+  var ctype = contentType;
+  var acc = req.headers["accept"];
   
-  if(req.accepts('application/xhtml+xml')) {
-    ctype = 'application/xhtml+xml';
+  switch(acc) {
+    case 'text/xml':
+    case 'application/xml':
+    case 'application/xhtml+xml':
+      ctype = acc;
+      break;
+    default:
+      ctype = contentType;
+      break;
   }
-  
-  if(ua.indexOf('WebKit')!==-1 
-    || 
-    ua.indexOf('IE')!==-1) {
-    ctype = 'text/html';
-  }
-  
   return ctype;
 }
 
