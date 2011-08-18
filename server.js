@@ -97,7 +97,7 @@ app.get('/microblog/', function(req, res){
   var view = '/_design/microblog/_view/posts_all';
   var ctype;
   
-  if(req.accepts("application/xhtml+xml") {
+  if(req.accepts("application/xhtml+xml")) {
     ctype = "application/xhtml+xml";
   }
   else {
