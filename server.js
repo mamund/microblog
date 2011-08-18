@@ -95,12 +95,13 @@ function validateUser(req, res, next) {
 app.get('/microblog/', function(req, res){
 
   var view = '/_design/microblog/_view/posts_all';
+  var ctype = req.headers["content-type"];
   
   var options = {};
   options.descending = 'true';
 
   db.get(view, options, function(err, doc) {
-    res.header('content-type',contentType);
+    res.header('content-type',ctype);
     res.render('index', {
       title: 'Home',
       site: baseUrl,
