@@ -240,7 +240,10 @@ app.post('/microblog/users/', function(req, res) {
     options.key=String.fromCharCode(34)+id+String.fromCharCode(34);
     
     db.get(view, options, function(err, doc) {
-      if(err) {
+      if(doc.rows.length!==0) {
+        return badRequest(res, 'User Already Exists');
+      }
+      else {
         item = {};
         item.type='user';
         item.password = req.body.password;
@@ -261,9 +264,6 @@ app.post('/microblog/users/', function(req, res) {
             res.redirect('/microblog/users/', 302);
           }
         });    
-      }
-      else {
-        return badRequest(res, 'User already exists');
       }
     });
   }
