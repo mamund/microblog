@@ -101,7 +101,6 @@ app.get('/microblog/', function(req, res){
   //if(req.headers["accept"].toLowercase()==='text/xml') {
   //  ctype = 'text/xml';
   //}
-  
   var options = {};
   options.descending = 'true';
 
@@ -250,6 +249,12 @@ app.post('/microblog/users/', function(req, res) {
         return badRequest(res);//, 'User Already Exists');
       }
       else {
+        if(req.body.name=='') {
+          res.status=400;
+          res.send('missing name');
+          return;
+        }
+        
         item = {};
         item.type='user';
         item.password = req.body.password;
