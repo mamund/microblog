@@ -98,9 +98,9 @@ app.get('/microblog/', function(req, res){
   var ctype;
   
   ctype = contentType;
-  if(req.headers["accept"].toLowercase()==='text/xml') {
-    ctype = 'text/xml';
-  }
+  //if(req.headers["accept"].toLowercase()==='text/xml') {
+  //  ctype = 'text/xml';
+  //}
   
   var options = {};
   options.descending = 'true';
